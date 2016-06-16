@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>面向对象的选项卡</title>
+<style>
+#div1 div{ width:300px; height:300px;}
+.active{ background:#FC3}
+</style>
+<script>
+window.onload = function()
+{
+	new tab();
+}
+var oDiv =null;
+function tab()
+{
+	var _this = this;
+	this.oDiv = document.getElementById('div1');
+	this.aInput = this.oDiv.getElementsByTagName('input')
+	for(var i=0;i<this.aInput.length;i++)
+	{
+		this.aInput[i].index = i;
+		this.aInput[i].onclick = function()
+		{
+			_this.fnclick(this.index);
+		}	
+	}
+}
+tab.prototype.fnclick = function(index)
+{
+	this.aDiv = this.oDiv.getElementsByTagName('div');
+	for(var j=0;j<this.aDiv.length;j++)
+	{
+		this.aInput[j].className = '';
+		this.aDiv[j].style.display = 'none';
+	}
+		this.aDiv[index].style.display = 'block';
+		this.aInput[index].className = 'active';
+}
+</script>
+</head>
+
+<body>
+<div id="div1">
+	<input type="button" class="active" value="红色"/>
+    <input type="button" value="蓝色"/>
+    <input type="button" value="黑色"/>
+    <input type="button" value="黄色"/>
+    <div style="background:red; display:block"></div>
+    <div style="background:blue; display:none"></div>
+    <div style="background:black; display:none"></div>
+    <div style="background:yellow; display:none"></div>
+</div>
+</body>
+</html>

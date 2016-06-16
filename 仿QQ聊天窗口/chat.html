@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>仿QQ聊天窗口</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<script type="text/javascript" src="myJs.js"></script>
+<script>
+window.onload = function()
+{
+	var oDiv1 = document.getElementById('div1');
+	var oUl = oDiv1.getElementsByTagName('ul')[0];
+	var oSelect = document.getElementById('choice');
+	var oTxt = document.getElementById('txt2');
+	var oBtn = document.getElementById('btn1');
+	var now = 2;//标记单选框的状态；
+	oBtn.onclick = function()
+	{
+		sub();
+	}
+	oTxt.onkeydown = function(ev)
+	{
+		var oEvent = ev||event;
+		if (now == 1)
+		{
+			if(oEvent.keyCode==13)
+			{
+				sub();
+				return false;
+			}
+		}
+		else
+		{
+			if(oEvent.keyCode==13&&oEvent.ctrlKey)
+			{
+				sub();	
+			}
+		}
+	}
+	function sub()
+	{
+		if(oTxt.value==null)
+		{
+			return false;	
+		}
+		else
+		{
+			var oLi = document.createElement('li')
+			oLi.innerHTML = oTxt.value;
+			oUl.appendChild(oLi);
+			var a = oLi.offsetHeight;
+			oLi.style.height = 0;
+			oLi.style.filter = 'alpha(opacity:0)';
+			oLi.style.opacity = 0;
+			attrValueChange(oLi,{'height':a,'opacity':100});
+			oTxt.value = '';	
+		}
+	}
+	oSelect.onchange = function()
+	{
+		
+		if(oSelect.value == 1)
+		{
+			now=1;	
+		}
+		else
+		{
+			now=2;	
+		}
+	}
+}
+</script>
+</head>
+
+<body>
+<div class="contain">
+	<div id="div1" class="div1">
+    	<ul>
+        	<li style="font-size:20px; color:red;">请在输入框输入一些东西，按ctrl+enter发送，中间的单选框可以切换成enter发送，也可以点击按钮发送</li>
+        </ul>
+    </div>
+    <div id="idv2" class="div2">
+    	  <select id="choice" class="choice">
+                <option value="1">按enter发送</option>
+                <option value="2" selected="selected">按ctrl+enter发送</option>
+          </select>
+    </div>
+    <div id="div3" class="div3">
+    	<textarea id="txt2" class="txt2" rows="10" cols="40"></textarea>
+    </div>
+    <div id="div4" class="div4">
+    	<input id="btn1"  class="btn1" type="button" value="发送" />
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+1.创建对象	非IE6下 new XMLHttpRequest()	IE6下 new ActiveXObject('Microsoft.XMLHTTP')
+
+2.连接服务器	open(方法(通常用‘GET’)，目标文件的地址，异步传输（true）);
+
+3.发送请求	send();
+
+4.接受数据	用onreadystatechange事件判断浏览器和服务器是否处于连接状态，当readyState==4时表示传输完成，传输完的数据还不能直接用，再当Status==200时表示传输成功,用responseText属性记录文件内容
+
+注：得到的数据可以用eval()方法变成js可识别的数据。

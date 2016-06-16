@@ -1,0 +1,47 @@
+/* CSS Document */
+* {
+	padding:0;
+	margin:0;
+}
+.contain {
+	width:500px;
+	height:600px;
+	margin:10px auto;
+	border:black double 2px;
+}
+.left {
+	width:483px;
+	height:600px;
+	float:left;
+	position:relative;
+	overflow:hidden;
+}
+.right {
+	width:15px;
+	height:600px;
+	float:left;
+	border-left:black double 2px;
+	position:relative;
+}
+.div_small {
+	width:15px;
+	height:20px;
+	background:red;
+	position:absolute;
+}
+.inner {
+	width:430px;
+	left:10px;
+	top:5px;
+	position:absolute;
+	padding-left:30px;
+}
+ul {
+	list-style-type:decimal;
+	margin-top:10px;
+}
+li {
+	border-bottom:1px dashed #00F;
+	height:30px;
+	font-size:20px;
+}

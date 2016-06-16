@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>淘宝图片效果</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script src="myJs.js"></script>
+<script>
+window.onload = function()
+{
+	var oDiv = document.getElementById('play');
+	var oOl = oDiv.getElementsByTagName('ol')[0];
+	var aLiSmall = oOl.getElementsByTagName('li');
+	var oUl = oDiv.getElementsByTagName('ul')[0];
+	var aLiBig = oUl.getElementsByTagName('li');
+	var now =0
+	for(var i=0;i<aLiSmall.length;i++)
+	{
+		aLiSmall[i].index = i;
+		aLiSmall[i].onclick = function()
+		{
+			now = this.index;
+			change();
+		}
+	}
+	function change()
+	{
+		for(var j=0;j<aLiSmall.length;j++)
+		{
+			aLiSmall[j].className = '';	
+		}
+		aLiSmall[now].className = 'active';
+		attrValueChange(oUl,{top:-150*now})	
+	}
+	function exchange()
+	{
+		now++;
+		if(now == aLiSmall.length)
+		{
+			oUl.style.top = 0 + 'px';
+			oUl.style.opacity = 0.4;
+			oUl.style.filter = 'alpha(opacity:40)';
+			attrValueChange(oUl,{opactiy:100});
+			now = 0;	
+		}
+		else
+		{
+			now = now;	
+		}
+		change();
+	}
+	var timer = setInterval(exchange,1000);
+	oDiv.onmouseover = function()
+	{
+		clearInterval(timer);	
+	}
+	oDiv.onmouseout = function()
+	{
+		timer = setInterval(exchange,1000);	
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+<div class="play" id="play">
+    <ol>
+    	<li class="active">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ol>
+	<ul>
+		<li style="z-index:1; background-color:#CCC;"></li>
+		<li style="background-color:#FFC;"></li>
+		<li style="background-color:red;"></li>
+		<li style="background-color:#C0C;"></li>
+		<li style="background-color:#0FF;"></li>
+	</ul>
+</div>
+</body>
+</html>

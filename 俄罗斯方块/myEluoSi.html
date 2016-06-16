@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>俄罗斯方块</title>
+
+<style type="text/css">
+#contain{
+	margin:auto;
+	width:320px;
+	padding:2px;
+	background:#CCC;
+	}
+#btn{
+	border:double;
+	background:#0FF;
+	border-radius:5px;}
+#grade {
+	border:#F00 solid 3px;
+	width:300px;
+	margin:auto;
+	color:red;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	border-radius:10px;
+}
+#content{
+	width:300px;
+	margin:auto;
+	margin-top:5px;
+	border:#F00 solid 3px;
+	border-radius:10px;
+	padding-top:5px;
+	padding-bottom:5px;
+	background:url(pic/1.jpg);}
+#board {
+	margin:auto;
+}
+#board tr td {
+	width: 27px;
+	height: 27px;
+}
+</style>
+<script language="javascript">  
+var status = 0;
+var board =[18];
+for(var i=0;i<18;i++){
+	board[i] =[10]; 
+	}
+for(var i=0;i<18;i++){
+	for(var j=0; j<10; j++){
+		board[i][j] = 0; 
+		} 
+	}
+var activeBlock; 
+function generateBlock(){
+    activeBlock = [4];
+    var modelNum = parseInt((Math.random()*7+1));
+    switch(modelNum){
+		case 1:{
+		activeBlock[0] = {x:0, y:4}; 
+        activeBlock[1] = {x:1, y:4}; 
+        activeBlock[2] = {x:0, y:5}; 
+        activeBlock[3] = {x:1, y:5}; 
+		break;
+		}
+		case 2:{
+		activeBlock[0] = {x:0, y:3}; 
+        activeBlock[1] = {x:0, y:4}; 
+        activeBlock[2] = {x:0, y:5}; 
+        activeBlock[3] = {x:0, y:6}; 
+		break;
+		}
+		case 3:{
+        activeBlock[0] = {x:0, y:5}; 
+        activeBlock[1] = {x:1, y:4}; 
+        activeBlock[2] = {x:1, y:5}; 
+        activeBlock[3] = {x:2, y:4}; 
+		break;
+		}
+		case 4:{
+		activeBlock[0] = {x:0, y:4}; 
+        activeBlock[1] = {x:1, y:4}; 
+        activeBlock[2] = {x:1, y:5}; 
+        activeBlock[3] = {x:2, y:5}; 
+		break;
+		}
+		case 5:{
+		activeBlock[0] = {x:0, y:4}; 
+        activeBlock[1] = {x:1, y:4}; 
+        activeBlock[2] = {x:2, y:4}; 
+        activeBlock[3] = {x:2, y:5}; 
+		break;
+		}
+		case 6:{
+		activeBlock[0] = {x:0, y:5}; 
+        activeBlock[1] = {x:1, y:5}; 
+        activeBlock[2] = {x:2, y:5}; 
+        activeBlock[3] = {x:2, y:4}; 
+		break;
+		}
+		case 7:{
+		activeBlock[0] = {x:0, y:4}; 
+        activeBlock[1] = {x:1, y:4}; 
+        activeBlock[2] = {x:1, y:3}; 
+        activeBlock[3] = {x:1, y:5}; 
+		break;
+		}
+	} 
+    for(var i=0; i<4; i++){
+		if(!isCellValid(activeBlock[i].x, activeBlock[i].y)){
+		return false; 
+		    }
+		} 
+    return true; 
+}
+
+var tbl; 
+function clean(){ 
+	for(var i=0; i<4; i++){ 
+		tbl.rows[activeBlock[i].x].cells[activeBlock[i].y].style.backgroundColor="transparent"; 
+	} 
+} 
+ 
+function paint(){ 
+	for(var i=0; i<4; i++){ 
+		tbl.rows[activeBlock[i].x].cells[activeBlock[i].y].style.backgroundColor="red"; 
+	} 
+} 
+
+function cleanBoard(){ 
+	for(var i=0; i<18; i++){ 
+		for(var j=0; j<10; j++){ 
+			tbl.rows[i].cells[j].style.backgroundColor = "transparent"; 
+		} 
+	} 
+}
+
+function paintBoard(){ 
+	for(var i=0;i<18;i++){ 
+		for(var j=0; j<10; j++){ 
+			if(board[i][j]==1){ 
+				tbl.rows[i].cells[j].style.backgroundColor = "red"; 
+			} 
+		} 
+	} 
+} 
+
+var timer;
+var score = 0; 
+function moveDown(){ 
+    if(checkBottomBorder()){
+	clean(); 
+    for(var i=0; i<4; i++){
+	    activeBlock[i].x = activeBlock[i].x + 1;
+	   } 
+    paint(); 
+    }
+    else{
+	clearInterval(timer);
+    updateBoard();
+    var lines = deleteLine();
+    if(lines!=0){
+	    score = score + lines*10; 
+        document.getElementById("score").innerText=" " + score; 
+        cleanBoard(); 
+        paintBoard(); 
+	} 
+    if(!generateBlock()){ 
+        alert("杨康你是猪吗"); 
+        status = 2; 
+        return; 
+    } 
+    paint();  
+    timer = setInterval(moveDown,1000) 
+	} 
+} 
+
+function moveLeft(){ 
+    if(checkLeftBorder()){ 
+        clean(); 
+        for(var i=0; i<4; i++){ 
+            activeBlock[i].y = activeBlock[i].y - 1; 
+         } 
+    paint(); 
+    } 
+} 
+
+function moveRight(){ 
+	if(checkRightBorder()){ 
+	clean(); 
+	for(var i=0; i<4; i++){ 
+		activeBlock[i].y = activeBlock[i].y + 1; 
+	} 
+	paint(); 
+	} 
+} 
+
+function rotate(){ 
+	var arr = [4]; 
+	for(var i=0; i<4; i++){ 
+		arr[i] = {x:0, y:0}; 
+	} 
+	for(var i=0; i<4; i++){ 
+		arr[i].x = activeBlock[i].x; 
+		arr[i].y = activeBlock[i].y; 
+	} 
+	var cx = Math.round((arr[0].x + arr[1].x + arr[2].x + arr[3].x)/4); 
+	var cy = Math.round((arr[0].y + arr[1].y + arr[2].y + arr[3].y)/4); 
+	for(var i=0; i<4; i++){ 
+		arr[i].x = cx+cy-activeBlock[i].y; 
+		arr[i].y = cy-cx+activeBlock[i].x; 
+	}  
+	for(var i=0; i<4; i++){ 
+		if(!isCellValid(arr[i].x,arr[i].y)){ 
+			return; 
+		} 
+	}
+	clean(); 
+	for(var i=0; i<4; i++){ 
+		activeBlock[i].x = arr[i].x; 
+		activeBlock[i].y = arr[i].y; 
+	} 
+	paint(); 
+} 
+
+function checkLeftBorder(){ 
+	for(var i=0; i<activeBlock.length; i++){ 
+		if(activeBlock[i].y==0){ 
+			return false; 
+		} 
+		if(!isCellValid(activeBlock[i].x, activeBlock[i].y-1)){ 
+			return false; 
+		} 
+	} 
+	return true; 
+} 
+
+function checkRightBorder(){ 
+	for(var i=0; i<activeBlock.length; i++){ 
+		if(activeBlock[i].y==9){ 
+			return false; 
+		} 
+		if(!isCellValid(activeBlock[i].x, activeBlock[i].y+1)){ 
+			return false; 
+		} 
+	} 
+	return true; 
+} 
+ 
+function checkBottomBorder(){ 
+	for(var i=0; i<activeBlock.length; i++){ 
+		if(activeBlock[i].x==17){ 
+			return false; 
+		} 
+		if(!isCellValid(activeBlock[i].x+1, activeBlock[i].y)){ 
+			return false; 
+		} 
+	} 
+	return true; 
+} 
+ 
+function isCellValid(x, y){ 
+	if(x>17||x<0||y>9||y<0){ 
+		return false; 
+	} 
+	if(board[x][y]==1){ 
+		return false; 
+	} 
+	return true; 
+} 
+ 
+function updateBoard(){ 
+	for(var i=0; i<4; i++){ 
+		board[activeBlock[i].x][activeBlock[i].y]=1; 
+	} 
+} 
+
+function deleteLine(){ 
+	var lines = 0; 
+	for(var i=0; i<18; i++){ 
+	var j=0; 
+	for(; j<10; j++){ 
+		if(board[i][j]==0){ 
+			break; 
+		} 
+	} 
+	if(j==10){ 
+		lines++; 
+		if(i!=0){ 
+			for(var k=i-1; k>=0; k--){ 
+				board[k+1] = board[k]; 
+			} 
+		} 
+		for(var g=0;g<10;g++){
+			board[0][g]=0; 
+			}
+	} 
+	} 
+	return lines; 
+} 
+
+function keyControl(){ 
+	if(status!=1){ 
+		return; 
+	} 
+	var code = event.keyCode; 
+	switch(code){ 
+		case 37:{ 
+			moveLeft(); 
+			break; 
+		} 
+		case 38:{ 
+			rotate(); 
+			break; 
+		} 
+		case 39:{ 
+			moveRight(); 
+			break; 
+		} 
+		case 40:{ 
+			moveDown(); 
+			break; 
+		} 
+	} 
+} 
+
+function begin(e){ 
+	e.disabled = true; 
+	status = 1; 
+	tbl = document.getElementById("board"); 
+	if(!generateBlock()){ 
+		alert("Game over!"); 
+		status = 2; 
+		return; 
+	} 
+	paint(); 
+	timer = setInterval(moveDown,1000); 
+} 
+document.onkeydown=keyControl; 
+</script> 
+</head> 
+<body> 
+<div id="contain">
+<div id="grade">
+<Input type="button" id="btn" value="begin" onClick="begin(this);"/> Score: <span id="score"> 0</span>
+</div>
+<div id="content">
+<table id="board" cellspacing=0 cellpadding=0 border=1 style="border-collapse:collapse;"> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+<tr> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+<td></td> 
+</tr> 
+</table> 
+</div>
+</div>
+</body> 
+</html> 

@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>数码时钟</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<script>
+function toDou(n)
+{
+	if(n<10)
+	{
+		return '0'+n;
+	}
+	else
+	{
+		return ''+n;	
+	}
+}
+
+
+window.onload = function()
+{
+	var aTr1 = document.getElementById('tr1');
+	var aTr2 = document.getElementById('tr2');
+	var aImg1 = aTr1.getElementsByTagName('img');
+	var aImg2 = aTr2.getElementsByTagName('img');
+	function tick()
+	{
+		var oDate = new Date();
+		var str1 = oDate.getFullYear()+toDou(oDate.getMonth()+1)+toDou(oDate.getDate());
+		var str2 = toDou(oDate.getHours())+toDou(oDate.getMinutes())+toDou(oDate.getSeconds())+oDate.getDay();
+		for(var j=0;j<aImg1.length;j++)
+		{
+			aImg1[j].src = 'img/'+str1.charAt(j)+'.png';
+		}
+		for(var i=0;i<aImg2.length;i++)
+		{
+			aImg2[i].src = 'img/'+str2.charAt(i)+'.png';
+		}
+	}
+	setInterval(tick,1000);
+	tick();
+		
+}
+</script>
+</head> 
+
+<body>
+<div id="div1">
+<table width="100%" border="0">
+  <tr height="100px">
+    <td colspan="11" style=" text-align:center"><img src="img/title.png" /></td>
+  </tr>
+  <tr height="100px" id="tr1">
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td>年</td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td>月</td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td>日</td>
+  </tr>
+  <tr height="100px" id="tr2">
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td>：</td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td>：</td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td><img class="num" src="img/0.png" alt="0" /></td>
+    <td colspan="2">星期</td>
+    <td><img class="num" src="img/0.png" alt="one" /></td>
+  </tr>
+</table>
+
+</div>
+</body>
+</html>

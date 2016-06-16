@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>仿QQ界面</title>
+<link rel="stylesheet" type="text/css" href="style.css"/>
+<script type="text/javascript" src="myJs.js"></script>
+<script>
+window.onload = function()
+{
+	var oDiv = document.getElementById('bottom');
+	var aDiv = oDiv.getElementsByTagName('div');
+	var oDivTop1 = document.getElementById('top_t');
+	var oDivTop2 = document.getElementById('out');
+	var timer = null;
+	oDivTop1.onmouseover = oDivTop2.onmouseover = function()
+	{
+		clearTimeout(timer);
+		oDivTop2.style.display = 'block';	
+	}
+	oDivTop1.onmouseout = oDivTop2.onmouseout = function()
+	{
+		timer = setTimeout(function()
+		{
+			oDivTop2.style.display = 'none';
+		},300);	
+	}
+	for(var i=0;i<aDiv.length;i++)
+	{
+		aDiv[i].onclick = function()
+		{
+			var oUl = this.getElementsByTagName('ul')[0];
+			if(this.offsetHeight==31)
+			{
+				attrValueChange(this,{height:oUl.offsetHeight});
+			}
+			else
+			{
+				attrValueChange(this,{height:30});
+			}
+		}
+	}
+}
+</script>
+</head>
+
+<body>
+<div id="contain" class="contain">
+	<div id="top" class="top">
+    	<div id="top_t" class="top_t">头像</div>
+        <div id="out" class="out">个人信息</div>
+    </div>
+    <div id="bottom" class="bottom">
+    	<div style="background:#6FF; font-size:30px; height:40px; text-align:left; color:red;">联系人</div>
+    	<div class="div1">
+        	<ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">同事</li>
+                <li>同事1号</li>
+                <li>同事2号</li>
+                <li>同事3号</li>
+                <li>同事4号</li>
+                <li>同事5号</li>
+                <li>同事6号</li>
+            </ul>
+        </div>
+        <div class="div1"><ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">朋友</li>
+                <li>朋友1号</li>
+                <li>朋友2号</li>
+                <li>朋友3号</li>
+            </ul></div>
+        <div class="div1">
+        	<ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">同学</li>
+                <li>同学1号</li>
+                <li>同学2号</li>
+                <li>同学3号</li>
+                <li>同学4号</li>
+                <li>同学5号</li>
+                <li>同学6号</li>
+            </ul></div>
+        <div class="div1">
+        	<ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">家人</li>
+                <li>家人1号</li>
+                <li>家人2号</li>
+                <li>家人3号</li>
+                <li>家人4号</li>
+                <li>家人5号</li>
+                <li>家人6号</li>
+            </ul></div>
+        <div class="div1">
+        	<ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">html</li>
+                <li>html1号</li>
+                <li>html2号</li>
+                <li>html3号</li>
+                <li>html4号</li>
+            </ul></div>
+        <div class="div1">
+        	<ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">js</li>
+                <li>js1号</li>
+                <li>js2号</li>
+            </ul></div>
+        <div class="div1">
+        	<ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">css</li>
+                <li>java1号</li>
+                <li>java2号</li>
+                <li>java3号</li>
+                <li>java4号</li>
+            </ul></div>
+        <div class="div1">
+        	<ul>
+            	<li style="height:30px; text-align:left; padding-left:30px; padding-top:3px;">java</li>
+                <li>java1号</li>
+                <li>java2号</li>
+                <li>java3号</li>
+            </ul></div>
+    </div>
+</div>
+</body>
+</html>

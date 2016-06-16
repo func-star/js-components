@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>自定义滚动条</title>
+<link rel="stylesheet" type="text/css"  href="style.css"/>
+<script>
+window.onload=function ()
+{
+	var oDiv=document.getElementById('div_small');
+	var oDivRight=document.getElementById('right');
+	var oDivTxt = document.getElementById('inner');
+	var oDivLeft = document.getElementById('left');
+	var oDivContain = document.getElementById('contain');
+	var disY=0;
+
+	if(document.addEventListener){ 
+	document.addEventListener('DOMMouseScroll',scrollFunc,false); 
+	}
+	window.onmousewheel=document.onmousewheel=scrollFunc;
+	function scrollFunc(ev)
+	{
+		var direct = 0;
+		var oEvent = ev||event;
+		if(oEvent.wheelDelta)
+		{
+		direct = oEvent.wheelDelta; 
+		}
+		else if(oEvent.detail)
+		{
+		direct = -oEvent.detail; 
+		} 
+		direct<0?direct=-1:direct=1;
+		var k = oDiv.offsetTop;	
+		if(direct==-1)
+		{
+			k+=10;	
+		}
+		else
+		{
+			k-=10;	
+		}
+		Move(k);	
+	}
+	oDiv.onmousedown=function (ev)
+	{
+		var oEvent=ev||event;
+		
+		disY=oEvent.clientY-oDiv.offsetTop;
+		
+		document.onmousemove=function (ev)
+		{
+			var oEvent=ev||event;
+			var t=oEvent.clientY-disY;
+			Move(t);
+			
+		};
+		document.onmouseup=function ()
+		{
+			document.onmousemove=null;
+			document.onmouseup=null;
+		};
+		
+		return false;
+	};
+	function Move(t)
+	{
+		if(t<0)
+		{
+			t = 0;	
+		}
+		else if(t>oDivRight.offsetHeight-oDiv.offsetHeight)
+		{
+			t = oDivRight.offsetHeight-oDiv.offsetHeight;
+		}
+		oDiv.style.top=t+'px';
+		var scr = oDiv.offsetTop/(oDivRight.offsetHeight-oDiv.offsetHeight);
+		oDivTxt.style.top = 5 - (oDivTxt.offsetHeight-oDivLeft.offsetHeight+10)*scr + 'px';
+	}
+};
+</script>
+</head>
+
+<body>
+<div  id="contain" class="contain">
+	<div id="left" class="left">
+    	<div id="inner" class="inner">
+        	<ul>
+            	<li style="color:#F00; font-size:36px; height:40px">按住滚动条向下拖动</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                 <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+                <li>fksajfhdksajf</li>
+                <li>纷纷开始就阿富汗看就好</li>
+                <li>哈哈你看积分卡第三方</li>
+                <li>房东</li>
+                <li>范德萨会 </li>
+                <li>发生的发生的广发大厦</li>
+            </ul>
+        </div>
+    </div>
+    <div id="right" class="right">
+    	<div id="div_small" class="div_small"></div>
+    </div>
+</div>
+</body>
+</html>

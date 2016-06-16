@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>面对对象的侧边广告栏</title>
+<style>
+#div1 {
+	width:250px;
+	height:200px;
+	background:#CCC;
+	position:absolute;
+	right:0;
+	bottom:0;
+	border:#000 1px double;
+}
+</style>
+<script>
+window.onscroll = window.onresize = function()
+{
+	new Scroll();	
+}
+function Scroll()
+{
+	this.oDiv=document.getElementById('div1');
+	this.scrollTop=document.documentElement.scrollTop||document.body.scrollTop;
+	this.startMove(document.documentElement.clientHeight-this.oDiv.offsetHeight+this.scrollTop);
+};
+
+var timer=null;
+
+Scroll.prototype.startMove = function(iTarget)
+{
+	_this = this
+	clearInterval(timer);
+	timer = setInterval(function()
+	{
+		var speed = (iTarget - _this.oDiv.offsetTop)/2;
+		speed = speed>0?Math.ceil(speed):Math.floor(speed);
+		if(_this.oDiv.offsetTop == iTarget)
+		{
+			clearInterval(timer);	
+		}
+		else
+		{
+			_this.oDiv.style.top = _this.oDiv.offsetTop + speed +'px';	
+		}
+	},30);
+}
+</script>
+</head>
+
+<body style="height:10000px;">
+<div id="div1"></div>
+</body>
+</html>

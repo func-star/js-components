@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>控制滚动</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script>
+window.onload = function()
+{
+	var oDivRoll = document.getElementById('roll');
+	var oUl = oDivRoll.getElementsByTagName('ul')[0];
+	var aLi = oUl.getElementsByTagName('li');
+	var oDivLeft = document.getElementById('left');
+	var oDivRight = document.getElementById('right');
+	var timer = null;
+	var speed = 7;
+	var direction = 1;
+	var oSpeed = document.getElementById('speed')
+	oUl.innerHTML = oUl.innerHTML + oUl.innerHTML;
+	oUl.style.width = aLi[0].offsetWidth * aLi.length + 'px';
+	function toLeft()
+	{
+		if(oUl.offsetLeft<-oUl.offsetWidth/2)
+		{
+			oUl.style.left = 0;	
+		}
+		oUl.style.left = oUl.offsetLeft - speed + 'px';
+	}
+	function toRight()
+	{
+		if(oUl.offsetLeft>0)
+		{
+			oUl.style.left = -oUl.offsetWidth/2 + 'px';	
+		}
+		oUl.style.left = oUl.offsetLeft + speed + 'px';
+	}
+	oSpeed.onchange = function()
+	{
+		speed = parseInt(this.value);	
+	}
+	oDivLeft.onclick = function()
+	{
+		clearInterval(timer);
+		timer = setInterval(toLeft,30);
+		direction = 1;
+	}
+	oDivRight.onclick = function()
+	{
+		clearInterval(timer);
+		timer = setInterval(toRight,30);
+		direction = 2;
+	}	
+	timer = setInterval(toLeft,30);
+	oUl.onmouseover = function()
+	{
+		clearInterval(timer);	
+	}
+	oUl.onmouseout = function()
+	{
+		if(direction==1)
+		{
+			timer = setInterval(toLeft,30);
+		}
+		else
+		{
+			timer = setInterval(toRight,30);
+		}
+	}
+}
+</script>
+</head>
+<body>
+<div class="control">
+	滚动速度：
+	<select id="speed">
+		<option value="3">慢</option>
+		<option value="7" selected="selected">中</option>
+		<option value="12">快</option>
+	</select>
+</div>
+
+<div class="roll" id="roll">
+    <div id="left" class="btn_left"></div>
+    <div id="right" class="btn_right"></div>
+    <div class="wrap">
+        <ul>
+            <li><a href="#"><img src="img/1.jpg" /></a></li>
+            <li><a href="#"><img src="img/2.jpg" /></a></li>
+            <li><a href="#"><img src="img/3.jpg" /></a></li>
+            <li><a href="#"><img src="img/4.jpg" /></a></li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

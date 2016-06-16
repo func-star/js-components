@@ -1,0 +1,228 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>无标题文档</title>
+<style>
+.c1 {
+	position:absolute;
+	left:410px;
+}
+.c2 {
+	position:absolute;
+	left:490px;
+}
+.c3 {
+	position:absolute;
+	left:590px;
+}
+div {
+	float:left;
+}
+#control {
+	display:none;
+	float:left
+}
+#div1 {
+	width:100px;
+	height:100px;
+	background:red;
+	position:absolute;
+	left:0px;
+	top:198px;
+	border-radius:50px;
+	border:#000 solid 1px;
+}
+#div2 {
+	width:1px;
+	height:300px;
+	position:absolute;
+	left:900px;
+	top:0;
+	background:black;
+}
+#div3 {
+	width:1px;
+	height:300px;
+	position:absolute;
+	left:400px;
+	top:0;
+	background:black;
+}
+#div4 {
+	width:1200px;
+	height:1px;
+	position:absolute;
+	left:0px;
+	top:300px;
+	background:black;
+}
+#div5 {
+	width:1200px;
+	height:1px;
+	position:absolute;
+	left:0px;
+	top:100px;
+	background:black;
+}
+</style>
+<script>
+var timer = null
+var speed = 7;//匀速状态下的小球运动速度
+var zt = 2;//小球的运动状态:匀速或者变速
+window.onload = function()
+{
+	var oSd = document.getElementById('sd')
+	var oSpeed = document.getElementById('speed');
+	var oDiv = document.getElementById('div1');
+	var oDivControl = document.getElementById('control');
+	var oDivC1 = document.getElementById('c1');
+	var oDivC2 = document.getElementById('c2');
+	var oDivC3 = document.getElementById('c3');
+	if(oSd.value==1)
+	{
+		oDivControl.style.display = 'block';
+		zt = 1;	
+	}
+	else
+	{
+		oDivControl.style.display = 'none';
+		zt = 2;
+	}
+	if(oSpeed.value==3)
+	{
+		speed = 3;
+	}
+	else if(this.value==7)
+	{
+		speed = 7;
+	}
+	else
+	{
+		speed = 12;
+	}
+	oSd.onchange = function()
+	{
+		if(this.value==1)
+		{
+			zt = 1;
+			oDivControl.style.display = 'block';
+		}
+		else
+		{
+			zt = 2;
+			oDivControl.style.display = 'none';
+		}
+	}
+	oSpeed.onchange = function()
+	{
+		if(this.value==3)
+		{
+			speed = 3;
+		}
+		else if(this.value==7)
+		{
+			speed = 7;
+		}
+		else
+		{
+			speed = 12;
+		}
+	}
+	oDivC1.onclick = function()
+	{
+		startMove_p(0);
+		
+	}
+	oDivC2.onclick = function()
+	{
+		startMove_p(400);
+	}
+	oDivC3.onclick = function()
+	{
+		startMove_p(900);
+	}
+}
+function startMove_p(iTarget)
+{
+	if(zt==2)
+		{
+			startMove_b(iTarget);	
+		}
+		else
+		{
+			startMove_y(iTarget);
+		}	
+}
+function startMove_y(iTarget)
+{
+	var oDiv = document.getElementById('div1');
+	clearInterval(timer);
+	timer = setInterval(function()
+	{
+		if(iTarget>=oDiv.offsetLeft)
+		{
+			speed = Math.abs(speed);
+		}
+		else
+		{
+			speed = -Math.abs(speed);
+		}
+		if(Math.abs(iTarget-oDiv.offsetLeft)<=Math.abs(speed))
+		{
+			clearInterval(timer);
+			oDiv.style.left = iTarget + 'px';
+			
+		}
+		else
+		{
+			oDiv.style.left = oDiv.offsetLeft + speed + 'px';	
+		}
+	},30);	
+}
+function startMove_b(iTarget)
+{
+	var oDiv = document.getElementById('div1');
+	clearInterval(timer);
+	timer = setInterval(function()
+	{
+		speed = parseInt(iTarget - oDiv.offsetLeft)/30;
+		speed = speed>0?Math.ceil(speed):Math.floor(speed);
+		if(iTarget==oDiv.offsetLeft)
+		{
+			clearInterval(timer);
+			speed = 7;	
+		}
+		else
+		{
+			oDiv.style.left = oDiv.offsetLeft + speed + 'px';	
+		}
+	},30);
+}
+</script>
+</head>
+
+<body>
+<div div="fs"> 滚动速度：
+  <select id="sd">
+    <option value="1">匀速</option>
+    <option value="2" selected="selected">变速</option>
+  </select>
+</div>
+<div id="control"> 运动速度：
+  <select id="speed">
+    <option value="3">慢</option>
+    <option value="7" selected="selected">中</option>
+    <option value="12">快</option>
+  </select>
+</div>
+<input class="c1" id="c1" type="button" value="回原点" />
+<input class="c2" id="c2" type="button" value="到400像素"/>
+<input class="c3" id="c3" type="button" value="到900像素" />
+<div id="div1"></div>
+<div id="div2"></div>
+<div id="div3"></div>
+<div id="div4"></div>
+<div id="div5"></div>
+</body>
+</html>
